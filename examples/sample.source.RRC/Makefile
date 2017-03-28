@@ -2333,7 +2333,8 @@ ASN_MODULE_SOURCES=	\
 	UE-RadioAccessCapability-r5.c	\
 	UE-RadioAccessCapability-r6.c	\
 	UE-RadioAccessCapability-r7.c	\
-	UL-RFC3095-Context.c
+	UL-RFC3095-Context.c	\
+	EXTERNAL.c
 
 ASN_MODULE_HEADERS=	\
 	DL-DCCH-Message.h	\
@@ -4670,18 +4671,27 @@ ASN_MODULE_HEADERS=	\
 	UE-RadioAccessCapability-r5.h	\
 	UE-RadioAccessCapability-r6.h	\
 	UE-RadioAccessCapability-r7.h	\
-	UL-RFC3095-Context.h
+	UL-RFC3095-Context.h	\
+	EXTERNAL.h
 
+ASN_MODULE_HEADERS+=ANY.h
+ASN_MODULE_SOURCES+=ANY.c
 ASN_MODULE_HEADERS+=BOOLEAN.h
 ASN_MODULE_SOURCES+=BOOLEAN.c
 ASN_MODULE_HEADERS+=INTEGER.h
 ASN_MODULE_HEADERS+=NativeEnumerated.h
+ASN_MODULE_HEADERS+=GraphicString.h
+ASN_MODULE_SOURCES+=GraphicString.c
 ASN_MODULE_SOURCES+=INTEGER.c
 ASN_MODULE_HEADERS+=NULL.h
 ASN_MODULE_SOURCES+=NULL.c
 ASN_MODULE_SOURCES+=NativeEnumerated.c
 ASN_MODULE_HEADERS+=NativeInteger.h
 ASN_MODULE_SOURCES+=NativeInteger.c
+ASN_MODULE_HEADERS+=OBJECT_IDENTIFIER.h
+ASN_MODULE_SOURCES+=OBJECT_IDENTIFIER.c
+ASN_MODULE_HEADERS+=ObjectDescriptor.h
+ASN_MODULE_SOURCES+=ObjectDescriptor.c
 ASN_MODULE_HEADERS+=asn_SEQUENCE_OF.h
 ASN_MODULE_SOURCES+=asn_SEQUENCE_OF.c
 ASN_MODULE_HEADERS+=asn_SET_OF.h
@@ -4740,7 +4750,7 @@ libsomething_la_SOURCES=$(ASN_MODULE_SOURCES) $(ASN_MODULE_HEADERS)
 # This file may be used as an input for make(3)
 # Remove the lines below to convert it into a pure .am file
 TARGET = rrc-dump
-CFLAGS += -DHAVE_CONFIG_H -DJUNKTEST -DPDU=DL_DCCH_Message -DASN_PDU_COLLECTION -I.
+CFLAGS += -DHAVE_CONFIG_H -DJUNKTEST  -DPDU=DL_DCCH_Message -DASN_PDU_COLLECTION -I.
 OBJS=${ASN_MODULE_SOURCES:.c=.o} ${ASN_CONVERTER_SOURCES:.c=.o}
 
 all: DL-DCCH-Message.c $(TARGET)
@@ -4774,6 +4784,7 @@ regen-makefile:
 	ASN1MODULES="../rrc-7.1.0.asn1" \
 	ASN1PDU=DL-DCCH-Message \
 	PROGNAME=rrc-dump \
+	CFLAGS="" \
 	../sample.makefile.regen
 
 check: ${TARGET} check-ber check-xer check-per
